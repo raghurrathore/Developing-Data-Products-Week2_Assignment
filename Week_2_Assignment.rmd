@@ -1,0 +1,61 @@
+---
+title: "Week 2 Assignment"
+author: "R"
+date: "2021/1/2"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Map created with Leaflet
+
+```{r, echo=FALSE}
+library(leaflet)
+Team_name<-c("Dallas Mavericks", "Houston Rockets", "Memphis Grizzlies", "New Orleans Pelicans", "San Antonio Spurs")
+Arena<-c("American Airlines Center", "Toyota Center", "FedExForum", "Smoothie King Center", "AT&T Center")
+lat<-c(32.790556, 29.750833, 35.138333, 29.948889, 29.426944)
+lng<-c(-96.810278, -95.362222,-90.050556, -90.081944, -98.4375)
+df<-data.frame(Team_name, Arena, lat, lng)
+df$Abbr<-c("DM", "HR", "MG", "NOP", "SAS")
+df1<-df[, c(5,3,4)]
+
+DM<-makeIcon(
+  iconUrl = "https://upload.wikimedia.org/wikipedia/en/9/97/Dallas_Mavericks_logo.svg", iconWidth = 31*215/230,
+    iconHeight = 31, 
+    iconAnchorY = 16,
+    iconAnchorX = 31*215/230/2)
+
+HR<-makeIcon(
+  iconUrl = "https://upload.wikimedia.org/wikipedia/en/2/28/Houston_Rockets.svg", iconWidth = 31*215/230,
+    iconHeight = 31, 
+    iconAnchorY = 16,
+    iconAnchorX = 31*215/230/2)
+
+MG<-makeIcon(
+  iconUrl = "https://upload.wikimedia.org/wikipedia/en/f/f1/Memphis_Grizzlies.svg", iconWidth = 31*215/230,
+    iconHeight = 31, 
+    iconAnchorY = 16,
+    iconAnchorX = 31*215/230/2)
+
+NOP<-makeIcon(
+  iconUrl = "https://upload.wikimedia.org/wikipedia/en/0/0d/New_Orleans_Pelicans_logo.svg", iconWidth = 31*215/230,
+    iconHeight = 31, 
+    iconAnchorY = 16,
+    iconAnchorX = 31*215/230/2)
+
+SAS<-makeIcon(
+  iconUrl = "https://upload.wikimedia.org/wikipedia/en/a/a2/San_Antonio_Spurs.svg", iconWidth = 31*215/230,
+    iconHeight = 31, 
+    iconAnchorY = 16,
+    iconAnchorX = 31*215/230/2)
+
+iconSet <- iconList(DM= DM,
+                    HR =HR, 
+                    MG = MG,
+                    NOP = NOP,
+                    SAS = SAS)
+
+df1 %>% leaflet() %>% addTiles() %>% addMarkers(popup=df$Team_name, icon=~iconSet[Abbr])
+```
